@@ -138,14 +138,11 @@ async fn chiangmai(
     Ok(())
 }
 
-// #[tokio::main]
 #[shuttle_runtime::main]
 async fn main(#[shuttle_runtime::Secrets] secret_store: SecretStore) -> ShuttleSerenity {
 
     dotenv().ok();
 
-    // let discord_token = std::env::var("DISCORD_TOKEN").expect("Discord Token not found");
-    // let api_key = std::env::var("API_KEY").expect("key not found");
     let discord_token = secret_store.get("DISCORD_TOKEN").expect("Token not found");
     let api_key = secret_store.get("API_KEY").expect("Key not found");
 
@@ -174,8 +171,6 @@ async fn main(#[shuttle_runtime::Secrets] secret_store: SecretStore) -> ShuttleS
         .framework(framework)
         .await
         .map_err(shuttle_runtime::CustomError::new)?; 
-
-    // client.unwrap().start().await.unwrap();
 
     Ok(client.into())
 }
